@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#F4F1EA">
+  <meta name="description" content="MT-Panoramic 全景项目目录。按类型浏览空间，点击项目即可打开全景漫游。">
+  <title>空间档案 · MT-Panoramic</title>
+  <link rel="stylesheet" href="assets/catalog.css">
+  <script src="assets/catalog.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="MT-Panoramic 项目目录首页">
+      <span class="brand__mark" aria-hidden="true">M</span>
+      <span class="brand__name">MT-Panoramic <small>空间档案</small></span>
+    </a>
+    <nav class="site-nav" aria-label="主导航">
+      <a class="site-nav__link is-current" href="#projects">项目目录</a>
+      <a class="site-nav__link" href="#process">如何收录</a>
+      <span class="site-nav__rule" aria-hidden="true"></span>
+      <span class="site-nav__note">全景 · 空间 · 记录</span>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero__copy">
+        <p class="eyebrow"><span class="eyebrow__mark"></span> PROJECT INDEX <span class="eyebrow__year">/ 2026</span></p>
+        <h1 id="hero-title">走进每一处真实的空间。</h1>
+        <p class="hero__lead">以全景记录空间的尺度、光线与动线。选择一个项目，即可在浏览器中自由探索。</p>
+        <a class="button button--primary" href="#projects">浏览全景项目 <span aria-hidden="true">↓</span></a>
+        <div class="hero__caption"><span>720°</span><span class="hero__caption-rule"></span><span>一座空间，多个视角</span></div>
+      </div>
+
+      <aside class="hero-study" aria-label="全景漫游主视觉">
+        <div class="hero-study__image-wrap">
+          <img src="assets/panorama-hero.png" alt="笔记本电脑中展示沉浸式山谷全景，景色延伸至键盘" width="2896" height="2172">
+        </div>
+      </aside>
+    </section>
+
+    <section class="projects section-wrap" id="projects" aria-labelledby="projects-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow eyebrow--quiet">THE COLLECTION <span class="eyebrow__year">/ 全景项目</span></p>
+          <h2 id="projects-title">空间目录</h2>
+          <p class="section-heading__intro">按类型筛选，点击项目卡片进入全景浏览。</p>
+        </div>
+        <div class="project-count" aria-live="polite"><span id="project-count">00</span><small>个项目</small></div>
+      </div>
+
+      <div class="project-tools">
+        <div class="filters" id="filters" role="group" aria-label="按项目类型筛选">
+          <button class="filter is-active" type="button" data-category="all" aria-pressed="true">全部</button>
+        </div>
+        <label class="search">
+          <span class="search__icon" aria-hidden="true"></span>
+          <span class="visually-hidden">搜索项目</span>
+          <input id="search" type="search" placeholder="搜索项目、地区或关键词" autocomplete="off">
+          <kbd>/</kbd>
+        </label>
+      </div>
+
+      <p class="results-note" id="results-note">正在读取项目档案…</p>
+      <div class="project-grid" id="project-grid" aria-live="polite"></div>
+      <div class="empty-state" id="empty-state" hidden>
+        <p class="empty-state__eyebrow">ARCHIVE NOTE</p>
+        <h3 id="empty-title">第一段空间漫游，正等待被收入。</h3>
+        <p id="empty-description">完成导览导出后，将网页文件放入项目库并登记项目信息，即可在这里浏览。</p>
+        <a class="button button--secondary" href="#process">查看收录方式 <span aria-hidden="true">↓</span></a>
+      </div>
+      <p class="load-error" id="load-error" hidden>项目档案暂时无法读取。请通过静态 Web 服务打开此页面，并确认 `data/projects.json` 已一起部署。</p>
+    </section>
+
+    <section class="process" id="process" aria-labelledby="process-title">
+      <div class="section-wrap process__inner">
+        <div class="process__heading">
+          <p class="eyebrow eyebrow--quiet">FROM EDITOR TO ARCHIVE</p>
+          <h2 id="process-title">从制作到被看见</h2>
+        </div>
+        <div class="process__steps">
+          <article class="process-step"><span class="process-step__number">01</span><div><h3>导出全景网页</h3><p>在编辑器中完成场景、热点与品牌设置，导出可独立浏览的网页目录。</p></div></article>
+          <article class="process-step"><span class="process-step__number">02</span><div><h3>放入项目库</h3><p>将导出文件夹复制到 <code>catalog/projects/项目编号/</code>，保留其中的 <code>index.html</code> 和资源。</p></div></article>
+          <article class="process-step"><span class="process-step__number">03</span><div><h3>登记项目信息</h3><p>在 <code>catalog/data/projects.json</code> 添加项目名称、类型、封面和网页入口。</p></div></article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <a class="brand brand--footer" href="#top"><span class="brand__mark" aria-hidden="true">M</span><span class="brand__name">MT-Panoramic <small>空间档案</small></span></a>
+    <p>让空间，被再次走进。</p>
+    <span class="site-footer__year">© 2026 · PROJECT INDEX</span>
+  </footer>
+
+  <template id="project-card-template">
+    <article class="project-card">
+      <a class="project-card__link">
+        <div class="project-card__media">
+          <img class="project-card__cover" loading="lazy">
+          <span class="project-card__fallback" aria-hidden="true"><span>360°</span></span>
+          <span class="project-card__open" aria-hidden="true">↗</span>
+        </div>
+        <div class="project-card__body">
+          <div class="project-card__meta"><span class="project-card__category"></span><span class="project-card__location"></span></div>
+          <div class="project-card__title-row"><h3 class="project-card__title"></h3><span class="project-card__year"></span></div>
+          <p class="project-card__description"></p>
+          <div class="project-card__footer"><span class="project-card__scenes"></span><span class="project-card__enter">进入全景 <span aria-hidden="true">→</span></span></div>
+        </div>
+      </a>
+    </article>
+  </template>
+</body>
+</html>

@@ -1,0 +1,20 @@
+{
+  "name": "mt-panoramic",
+  "version": "0.5.20",
+  "description": "MT-Panoramic 全景导览制作线（基于 PanoPath / MIT）",
+  "main": "server/index.js",
+  "engines": {
+    "node": ">=20.9.0"
+  },
+  "scripts": {
+    "start": "node server/index.js"
+  },
+  "dependencies": {
+    "archiver": "^6.0.1",
+    "express": "^4.18.2",
+    "heic-convert": "^2.1.0",
+    "multer": "^2.1.1",
+    "sharp": "^0.35.5",
+    "unzipper": "^0.12.3"
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "key": "gongsheng",
+  "brand": "共生营造",
+  "title_template": "{brand} · {project}",
+  "logo": "共生营造.svg",
+  "theme_css": "gongsheng.theme.css",
+  "tokens": {
+    "canvas": "#F4F1EA",
+    "surface": "#FAF8F3",
+    "surface_sunken": "#EDEAE2",
+    "text_primary": "#2B2A26",
+    "text_secondary": "#6E6A5E",
+    "accent": "#B7472A",
+    "accent_ink": "#7A2E1A",
+    "accent_tint": "#F3E3DB",
+    "border": "#E7E1D6"
+  },
+  "settings": {
+    "fullscreen": true,
+    "zoom": true,
+    "compass": false,
+    "autorotate": false,
+    "mouseMode": "drag",
+    "dotType": "circle",
+    "dotSize": 4,
+    "dotActiveColor": "#B7472A",
+    "dotInactiveColor": "#6E6A5E",
+    "dotRingColor": "#FAF8F3",
+    "planSize": 200,
+    "planAspectRatio": 1.3333333333,
+    "hotspotColors": {
+      "info":     { "bg": "#F3E3DB", "icon": "#7A2E1A" },
+      "camera":   { "bg": "#B7472A", "icon": "#FFFFFF" },
+      "arrow":    { "bg": "#B7472A", "icon": "#FFFFFF" },
+      "door":     { "bg": "#B7472A", "icon": "#FFFFFF" },
+      "star":     { "bg": "#B7472A", "icon": "#FFFFFF" },
+      "eye":      { "bg": "#B7472A", "icon": "#FFFFFF" },
+      "location": { "bg": "#B7472A", "icon": "#FFFFFF" }
+    },
+    "btn1Text": "", "btn1Url": "", "btn1TextColor": "#FAF8F3", "btn1BgColor": "#B7472A", "btn1NewTab": true,
+    "btn2Text": "", "btn2Url": "", "btn2TextColor": "#2B2A26", "btn2BgColor": "#FAF8F3", "btn2NewTab": true,
+    "btn3Text": "", "btn3Url": "", "btn3TextColor": "#2B2A26", "btn3BgColor": "#FAF8F3", "btn3NewTab": true
+  }
+}

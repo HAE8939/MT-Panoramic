@@ -1,0 +1,30 @@
+# JavaScript dependencies and local application state
+node_modules/
+editor/node_modules/
+editor/MT-Panoramic/node_modules/
+editor/MT-Panoramic/tmp/
+editor/MT-Panoramic/public/js/marzipano.js
+editor/MT-Panoramic/public/img/
+
+# Generated tour exports; curated published copies live in catalog/projects/
+editor/panotour/dist/
+
+# Python caches
+__pycache__/
+*.pyc
+
+# Original high-resolution panorama sources (restore from the source archive as needed)
+editor/示范案例/*.jpg
+editor/示范案例/*.png
+!editor/示范案例/平面图.jpg
+!editor/示范案例/彩平图.png
+
+# Catalog data generated or copied for local demos
+catalog/projects/*
+!catalog/projects/README.md
+!catalog/projects/.gitkeep
+
+# OS metadata
+Thumbs.db
+desktop.ini
+.DS_Store

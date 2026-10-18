@@ -1,0 +1,162 @@
+/* ══════════════════════════════════════════════════════════════
+   共生营造 · 全景导览品牌主题 (Light · 暖米纸)
+   令牌来源：HAE Creator Design System V0.1
+   作用层：MT-Panoramic 导出后的 viewer 叠层 UI（style.css 之后加载）
+   原则：平涂不模糊 / 单点原色只给强调 / 层级靠字重与色阶 / 圆角仅 10·6
+   ══════════════════════════════════════════════════════════════ */
+
+:root{
+  --canvas:#F4F1EA;        /* 纸 */
+  --surface:#FAF8F3;       /* 卡纸 */
+  --surface-sunken:#EDEAE2;/* 内凹 */
+  --text-primary:#2B2A26;  /* 墨 */
+  --text-secondary:#6E6A5E;/* 次级 */
+  --text-disabled:#A8A294;
+  --accent:#B7472A;        /* 铁锈 · 唯一高饱和出口，永不改值 */
+  --accent-ink:#7A2E1A;    /* accent 做小字/图标时 */
+  --accent-tint:#F3E3DB;   /* 同系浅晕 */
+  --border:#E7E1D6;        /* 气声描边 ≈1.15:1 对纸 */
+  --ring:#FAF8F3;          /* 叠层压在照片上的纸色衬环 */
+}
+
+/* ── 字体与底色：界面是一张纸 ───────────────────────────────── */
+/* 全景画布之外的「墙」用美术馆黑（规则三：暗底 L5.5–11% 向 accent 染色），
+   UI 卡片保持暖米纸 —— 黑墙挂画、纸片做标签。
+   纯黑会伪装成信箱留白，纯纸色会让留白显形像 bug，故取 #16130F。 */
+body{background:#16130F;font-family:"PingFang SC","HarmonyOS Sans SC","Noto Sans SC","Microsoft YaHei",Inter,sans-serif;}
+
+/* 全叠层去玻璃拟态：不透、不糊、不投影 */
+#title-bar,#scene-list-toggle,#scene-list-items button,.top-btn,#controls button,
+#plan-container,.plan-controls-bar,.plan-filter-btn,.plan-ctrl-btn,#plan-restore-btn,.hs-label{
+  backdrop-filter:none!important;
+}
+
+/* ── 标题条：容器级纸片 ─────────────────────────────────────── */
+#title-bar{
+  background:var(--surface);color:var(--text-primary);
+  padding:8px 16px;border:1px solid var(--border);border-radius:10px;
+  font-size:15px;font-weight:600;letter-spacing:.01em;
+}
+
+/* ── 场景列表：次按钮样式，hover 只提描边不位移 ─────────────── */
+#scene-list-toggle{
+  background:var(--surface);color:var(--text-primary);border:1px solid var(--border);
+  padding:8px 14px;border-radius:6px;font-size:13px;font-weight:600;
+  transition:border-color .12s ease-out;
+}
+#scene-list-toggle:hover{background:var(--surface);border-color:var(--text-disabled);}
+#scene-list-items button{
+  background:var(--surface);color:var(--text-primary);border:1px solid var(--border);
+  padding:8px 14px;border-radius:6px;font-size:13px;font-weight:400;
+  transition:border-color .12s ease-out,background .12s ease-out;
+}
+#scene-list-items button:hover{background:var(--accent-tint);border-color:var(--text-disabled);color:var(--accent-ink);}
+
+/* ── Logo 衬板：品牌原色不改，对比不足时换衬底 ──────────────── */
+#logo-link{
+  background:var(--surface);border:1px solid var(--border);border-radius:10px;
+  padding:8px 12px;
+}
+#logo-img{height:36px;max-width:132px;filter:none;}
+
+/* ── 顶部按钮（本版未启用，规则先立好） ─────────────────────── */
+.top-btn{
+  background:var(--surface);color:var(--text-primary);border:1px solid var(--border);
+  padding:8px 16px;border-radius:6px;font-size:13px;font-weight:600;
+  transition:border-color .12s ease-out;
+}
+.top-btn:hover{background:var(--surface);border-color:var(--text-disabled);}
+.top-btn-accent{background:var(--accent);color:#fff;border-color:var(--accent);}
+.top-btn-accent:hover{background:#a63f26;border-color:#a63f26;}
+
+/* ── 控件按钮：方角纸片，不用圆形玻璃钮 ─────────────────────── */
+#controls button{
+  background:var(--surface);color:var(--text-primary);border:1px solid var(--border);
+  width:36px;height:36px;border-radius:6px;font-size:16px;font-weight:600;line-height:1;
+  transition:border-color .12s ease-out;
+}
+#controls button:hover{background:var(--surface);border-color:var(--text-disabled);}
+
+/* ── 指北针：SVG 表现属性可被 CSS 覆盖 ──────────────────────── */
+#compass-wrap{filter:none;}
+#compass-svg circle[r="28"]{fill:var(--surface);stroke:var(--border);stroke-width:1;}
+#compass-svg polygon[fill="#e94560"]{fill:var(--accent);}
+#compass-svg polygon[fill="rgba(255,255,255,0.7)"]{fill:var(--text-disabled);}
+#compass-svg circle[cx="30"][cy="30"][r="3"]{fill:var(--text-secondary);}
+#compass-svg text{fill:var(--text-secondary);font-weight:600;}
+#compass-svg #flat-north-arrow polygon{fill:var(--accent);}
+#compass-svg #flat-north-arrow rect{fill:var(--surface);}
+#compass-svg #flat-north-arrow text{fill:var(--text-primary);}
+
+/* ── 平面图框：浮层，允许 L2 ────────────────────────────────── */
+#plan-container{
+  background:var(--surface);border:1px solid var(--border);border-radius:10px;box-shadow:none;
+}
+#plan-container.plan-maximised{box-shadow:0 4px 12px rgba(26,20,14,.10);}
+/* 修正竖版平面图放大时的打点漂移：
+   原版只给 width:min(70vw,720px)+max-height:70vh，竖图被 max-height 卡住后
+   容器比例 ≠ 图片比例，object-fit:contain 居中留边，而打点按画布宽归一化 → 整体偏移。
+   这里让容器严格等于「图片比例 + 32px 标题条」，画布与图片盒重合，打点才对得上。 */
+#plan-container.plan-maximised{
+  --pw:min(70vw, calc((70vh - 32px) * var(--plan-aspect, 1.333333)));
+  width:var(--pw)!important;
+  height:calc(var(--pw) / var(--plan-aspect, 1.333333) + 32px)!important;
+  max-height:none;aspect-ratio:auto;
+}
+.plan-controls-bar{background:var(--surface-sunken);border-bottom:1px solid var(--border);border-radius:9px 9px 0 0;padding:0 8px;}
+.plan-controls-title{color:var(--text-secondary);font-size:12px;font-weight:600;}
+/* 本版不做方向箭头（缺每景朝向经度数据，DEFERRED）→ 隐藏「箭头」筛选钮。
+   选 CSS 隐藏而非改 index.html 删 DOM：源码虽有 if(planFilterArrowsBtn) 保护、删了也不报错，
+   但把功能开关留在品牌层，换项目时改一行即可，不必给构建器加 HTML 改写逻辑。 */
+#plan-filter-arrows-btn{display:none!important;}
+.plan-filter-btn,.plan-ctrl-btn{
+  background:var(--surface);color:var(--text-secondary);border:1px solid var(--border);
+  border-radius:6px;font-size:12px;font-weight:600;
+  transition:border-color .12s ease-out,color .12s ease-out;
+}
+.plan-filter-btn:hover,.plan-ctrl-btn:hover{background:var(--surface);border-color:var(--text-disabled);color:var(--text-primary);}
+.plan-filter-btn.active{background:var(--accent);border-color:var(--accent);color:#fff;}
+#plan-restore-btn{
+  background:var(--surface);color:var(--text-primary);border:1px solid var(--border);
+  border-radius:6px;font-size:13px;font-weight:600;
+}
+#plan-restore-btn:hover{background:var(--surface);border-color:var(--text-disabled);}
+
+/* ── 热点：唯一彩色出口给「可进入」，信息点降为纸片 ─────────── */
+.hs-icon{
+  width:34px;height:34px;border-radius:6px;padding:7px;
+  box-shadow:none;
+  /* 照片上不加阴影，改用纸色衬环保辨识度 */
+  border:2px solid var(--ring);
+}
+.hotspot-wrap:hover .hs-icon{transform:none;border-color:var(--accent-ink);}
+/* 色值由 preset 的 hotspotColors（内联 style）负责，本层只管形制 */
+.hs-info{font-size:18px;font-weight:700;}
+.hs-label{
+  background:var(--surface);color:var(--text-primary);border:1px solid var(--border);
+  border-radius:6px;padding:5px 12px;font-size:12px;
+  transition:color .12s ease-out;
+}
+
+/* ── 焦点可见性：2px accent-ink 外描边（交互规则 · 无障碍） ──── */
+:focus-visible{outline:2px solid var(--accent-ink);outline-offset:2px;}
+#pano:focus{outline:none;}
+
+/* ── 移动端密度：重写同名属性，否则会被本层桌面档吃掉 ───────── */
+@media(max-width:768px){
+  #title-bar{font-size:13px;padding:5px 12px;border-radius:6px;max-width:55vw;}
+  #scene-list-toggle{font-size:12px;padding:6px 10px;}
+  #scene-list-items button{font-size:12px;padding:6px 10px;}
+  #logo-link{padding:6px 8px;border-radius:6px;}
+  #logo-img{height:30px;max-width:100px;}
+  .top-btn{font-size:12px;padding:5px 10px;}
+  #controls button{width:32px;height:32px;font-size:15px;}
+  .hs-icon{width:30px;height:30px;padding:6px;border-width:2px;}
+  .hs-label{font-size:12px;padding:4px 10px;}
+  #plan-container{border-radius:6px;}
+}
+
+/* ── 动效纪律：≤200ms、只动颜色；尊重 reduced-motion ────────── */
+@media(prefers-reduced-motion:reduce){
+  *{transition:none!important;animation:none!important;}
+}

@@ -1,0 +1,16 @@
+{
+  "name": "mt-panoramic-editor",
+  "version": "1.0.0",
+  "private": true,
+  "description": "MT-Panoramic 全景导览制作线",
+  "engines": {
+    "node": ">=20.9.0"
+  },
+  "workspaces": [
+    "MT-Panoramic"
+  ],
+  "scripts": {
+    "start": "node scripts/start-editor.js",
+    "build:tour": "python panotour/build_tour.py"
+  }
+}
