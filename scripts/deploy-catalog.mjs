@@ -15,14 +15,19 @@
  * 与主站脚本一样只上传、不删除：OSS 上多出来的旧对象不会被清理，
  * 删除项目后如需下线对应文件，请到 OSS 控制台手动处理。
  *
- * 每个目录页 index.html 会额外上传一份无扩展名 key（pano、pano/projects/<编号>），
+ * 每个 index.html 会额外上传一份无扩展名 key（pano、pano/projects/<编号>），
  * 让 /pano、/pano/projects/<编号> 命中真实对象，不依赖任何回源改写规则。
+ * 无扩展名 URL 有个副作用：文档 URL 不带尾斜杠时，页面里的相对路径
+ * （assets/…、data/…）会被浏览器解析到域名根下而 404（netlog 实测）。
+ * 因此上传 index.html 时会注入 <base href="/pano/">（子目录页对应各自前缀），
+ * 该注入只发生在上传内容里，仓库内文件与 `python -m http.server` 本地预览不受影响。
  *
  * 用法：
  *   node scripts/deploy-catalog.mjs --bucket gsyz-web --dry-run
  *   node scripts/deploy-catalog.mjs --bucket gsyz-web --ossutil "C:\ossutil.exe"
  */
-import { readdir, stat } from "node:fs/promises";
+import { readdir, stat, readFile, writeFile, mkdtemp, rm } from "node:fs/promises";
+import { tmpdir } from "node:os";
 import { spawn } from "node:child_process";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -113,6 +118,31 @@ if (DRY) {
   process.exit(0);
 }
 
+// 为 index.html 生成注入 <base> 的上传副本；其余文件直接用原路径。
+// 同一个 src 可能对应两个 key（原路径 + 无扩展名副本），只生成一次。
+const tmpRoot = await mkdtemp(path.join(tmpdir(), "pano-deploy-"));
+const staged = new Map();
+async function localFileFor(src) {
+  if (!src.endsWith("index.html")) return path.join(CATALOG, src);
+  if (!staged.has(src)) {
+    const dir = src === "index.html" ? "" : src.slice(0, src.length - "index.html".length);
+    const baseHref = `/${PREFIX}/${dir}`.replace(/\/+$/, "") + "/";
+    const html = await readFile(path.join(CATALOG, src), "utf8");
+    let patched;
+    if (/<base\s/i.test(html)) {
+      patched = html; // 导出物自带 <base> 时尊重原值，不叠加
+    } else if (/<head(\s[^>]*)?>/i.test(html)) {
+      patched = html.replace(/<head(\s[^>]*)?>/i, (m) => `${m}\n  <base href="${baseHref}">`);
+    } else {
+      patched = `<base href="${baseHref}">\n${html}`;
+    }
+    const dest = path.join(tmpRoot, src.replace(/\//g, "__"));
+    await writeFile(dest, patched);
+    staged.set(src, dest);
+  }
+  return staged.get(src);
+}
+
 let ok = 0; const failed = [];
 const CONCURRENCY = 8;
 let cursor = 0;
@@ -120,7 +150,7 @@ async function worker() {
   while (cursor < plan.length) {
     const item = plan[cursor++];
     const pol = policy(item.key);
-    const local = path.join(CATALOG, item.src);
+    const local = await localFileFor(item.src);
     const size = (await stat(local)).size;
     try {
       await run(["cp", "-f", "--content-type", pol.type, "--cache-control", pol.cache, local, target(item.key)]);
@@ -134,6 +164,7 @@ async function worker() {
 await Promise.all(Array.from({ length: CONCURRENCY }, worker));
 
 console.log(`\n上传成功 ${ok} / ${plan.length}`);
+await rm(tmpRoot, { recursive: true, force: true });
 if (failed.length) {
   failed.slice(0, 15).forEach((f) => console.error("  !!", f));
   process.exit(4);
