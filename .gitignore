@@ -18,6 +18,7 @@ editor/示范案例/*.jpg
 editor/示范案例/*.png
 !editor/示范案例/平面图.jpg
 !editor/示范案例/彩平图.png
+_assets/
 
 # Catalog data generated or copied for local demos
 catalog/projects/*

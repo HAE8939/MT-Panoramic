@@ -1,4 +1,17 @@
 {
   "version": 1,
-  "projects": []
+  "projects": [
+    {
+      "id": "renheng-jiachengli",
+      "title": "仁恒·夹城里",
+      "category": "量房记录",
+      "location": "仁恒·夹城里",
+      "year": 2026,
+      "scenes": 20,
+      "description": "量房初始阶段的 20 个空间 360° 现场记录，通过场景菜单切换浏览。",
+      "cover": "assets/covers/renheng-jiachengli.jpg",
+      "href": "projects/renheng-jiachengli/index.html",
+      "tags": ["量房", "住宅", "精装"]
+    }
+  ]
 }
