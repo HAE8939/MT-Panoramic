@@ -26,6 +26,13 @@ npm start
 python -m http.server 8125 --directory catalog
 ```
 
-打开 <http://localhost:8125>。部署时将 `catalog/` 文件夹作为静态站点根目录上传；全景网页和项目清单都会一并发布，不需要服务器端程序。
+打开 <http://localhost:8125>。线上发布在官网隐藏路由 <https://gsyzdesign.com/pano>（OSS 网站桶 `pano/` 前缀，不需要服务器端程序）：
+
+```powershell
+node scripts/deploy-catalog.mjs --bucket gsyz-web --dry-run
+node scripts/deploy-catalog.mjs --bucket gsyz-web --ossutil "C:\ossutil.exe"
+```
+
+脚本只上传不删除；HTML/JSON/CSS/JS 为 no-cache，收录新项目后重跑即生效。细节见 [`catalog/README.md`](catalog/README.md) 的「部署」。
 
 项目归纳页的完整字段说明、发布方式和视觉系统参考见 [`catalog/README.md`](catalog/README.md)。

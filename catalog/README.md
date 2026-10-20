@@ -41,17 +41,26 @@ python -m http.server 8125 --directory catalog
 
 ## 部署
 
-把整个 `catalog/` 目录作为静态站点根目录发布，保留以下结构：
+归纳页发布在官网的隐藏路由 **https://gsyzdesign.com/pano**（阿里云 OSS 网站桶 `gsyz-web` 的 `pano/` 前缀下）。它不进官网导航、不进 sitemap，仅通过直接网址访问；按 2026-10-20 口径不在 robots.txt 屏蔽。官网仓库不需要任何改动，两边完全独立。
+
+上传用根目录的 `scripts/deploy-catalog.mjs`（与官网仓库的 deploy-oss-web.mjs 同一套机制，只上传不删除）：
+
+```powershell
+node scripts/deploy-catalog.mjs --bucket gsyz-web --dry-run
+node scripts/deploy-catalog.mjs --bucket gsyz-web --ossutil "C:\ossutil.exe"
+```
+
+上传结构保持：
 
 ```text
-catalog/
-  index.html
+pano/
+  index.html          （另上传一份无扩展名 key `pano`，保证不带斜杠也能访问）
   assets/
   data/projects.json
   projects/<项目编号>/index.html
 ```
 
-添加新项目后，将更新后的 `catalog/` 重新部署。筛选和搜索在浏览器中完成，所有导览网页也以静态文件提供。
+缓存策略：HTML、JSON、CSS、JS 一律 no-cache，收录新项目后重跑脚本立即生效，不需要刷新 CDN；图片/视频等二进制素材走 30 天长缓存。若日后**原地更新**某项目的大图素材（同名 key），CDN 可能最多 30 天返回旧图，届时在 CDN 控制台刷新对应目录，或改用新文件名。删除项目后 OSS 上的旧文件不会被脚本清理，需手动下线。
 
 ## 页面排版
 
