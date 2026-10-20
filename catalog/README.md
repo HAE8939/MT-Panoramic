@@ -22,7 +22,7 @@ python -m http.server 8125 --directory catalog
 {
   "id": "courtyard-residence",
   "title": "庭院住宅",
-  "category": "住宅",
+  "category": "全景效果",
   "location": "项目所在地",
   "year": 2026,
   "scenes": 10,
@@ -33,9 +33,11 @@ python -m http.server 8125 --directory catalog
 }
 ```
 
-`id` 只作记录识别；`category` 会自动生成筛选项；`cover` 与 `href` 都相对 `catalog/` 目录填写。封面图放入 `assets/covers/`。`href` 应指向部署目录内的导览网页；项目卡片会打开这个链接。项目数据可按需填写 `location`、`year`、`scenes`、`description` 与 `tags`。
+`id` 只作记录识别；`cover` 与 `href` 都相对 `catalog/` 目录填写。封面图放入 `assets/covers/`。`href` 应指向部署目录内的导览网页；项目卡片会打开这个链接。项目数据可按需填写 `location`、`year`、`scenes`、`description` 与 `tags`。
 
-首页笔记本全景图 `assets/panorama-hero.png` 是固定主视觉，用来表达全景浏览体验，不属于任何单独项目；项目卡片封面仍由各项目的 `cover` 字段指定。
+`category` 使用站点固定三分类（2026-10-20 定）：**量房记录**（量房阶段拍摄的现场全景）、**水电记录**（施工过程中水电阶段拍摄的现场全景）、**全景效果**（设计阶段或完工阶段的全景呈现）。这四个筛选项（含「全部」）始终展示，hover 有释义；数据里出现体系外的新分类时会自动追加到筛选行末尾。同一项目在不同阶段多次拍摄时，按每次导出各登记一条记录、分别归类。
+
+首页笔记本全景图 `assets/panorama-hero.png` 是固定主视觉，用来表达全景浏览体验，不属于任何单独项目；项目卡片封面仍由各项目的 `cover` 字段指定。页头页脚与浏览器标签的品牌（logo、名称、favicon）跟随主站「共生营造空间设计」，资源在 `assets/logo-dark.svg` 与 `assets/favicon*`，取自主站仓库 `public/`；主站换标时需同步覆盖这三处文件。页尾 CTA 与导航的「前往主站」指向 `/cn`。
 
 目录当前收录：`仁恒·夹城里`（量房初始阶段，20 景，无平面图，导览内用「☰ 场景」菜单切换）。编辑器里的庭院住宅示范资料用于展示页面视觉，不会伪装成已发布项目。
 

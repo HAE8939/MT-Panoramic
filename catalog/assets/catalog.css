@@ -57,19 +57,8 @@ img { display: block; max-width: 100%; }
   padding-inline: max(24px, calc((100vw - 1120px) / 2));
   border-bottom: 1px solid var(--border);
 }
-.brand { display: inline-flex; align-items: center; gap: var(--s8); min-width: 0; }
-.brand__mark {
-  display: grid;
-  place-items: center;
-  width: 28px;
-  height: 28px;
-  border-radius: var(--radius-inner);
-  background: var(--accent);
-  color: #fff;
-  font: 600 14px/1 var(--mono);
-}
-.brand__name { display: flex; flex-direction: column; color: var(--ink); font-size: 13px; font-weight: 600; line-height: 1.25; letter-spacing: -.01em; }
-.brand__name small { color: var(--secondary); font-size: 11px; font-weight: 400; }
+.brand { display: inline-flex; align-items: center; min-width: 0; }
+.brand__logo { height: 26px; width: auto; }
 .site-nav { display: flex; align-items: center; gap: var(--s24); color: var(--secondary); font-size: 13px; }
 .site-nav__link { padding-block: 7px; transition: color 120ms ease-out; }
 .site-nav__link:hover { color: var(--ink); }
@@ -182,33 +171,31 @@ img { display: block; max-width: 100%; }
 
 .empty-state { display: flex; flex-direction: column; align-items: flex-start; padding: var(--s48) 0 var(--s64); border-top: 1px solid var(--border); }
 .empty-state[hidden], .load-error[hidden] { display: none; }
+.empty-state .button[hidden] { display: none; }
 .empty-state__eyebrow { color: var(--secondary); }
 .empty-state h3 { margin: var(--s16) 0 var(--s8); font-size: 17px; font-weight: 600; }
 .empty-state p:not(.empty-state__eyebrow) { max-width: 40em; margin: 0; color: var(--secondary); font-size: 13px; }
 .empty-state .button { margin-top: var(--s16); }
 .load-error { padding: var(--s16); border: 1px solid color-mix(in srgb, var(--danger) 22%, var(--border)); border-radius: var(--radius-outer); color: var(--danger); background: color-mix(in srgb, var(--danger) 5%, var(--surface)); font-size: 13px; }
 
-.process { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
-.process__inner { display: grid; grid-template-columns: .8fr 1.2fr; gap: clamp(48px, 10vw, 132px); padding-block: var(--s64); }
-.process__heading h2 { margin: var(--s16) 0 0; font-size: 20px; font-weight: 600; line-height: 1.5; }
-.process__steps { display: flex; flex-direction: column; }
-.process-step { display: grid; grid-template-columns: 40px 1fr; gap: var(--s12); padding-block: var(--s16); border-top: 1px solid var(--border); }
-.process-step:last-child { border-bottom: 1px solid var(--border); }
-.process-step__number { padding-top: 3px; color: var(--accent-ink); font: 400 11px/1.5 var(--mono); }
-.process-step h3 { margin: 0; font-size: 13px; font-weight: 600; }
-.process-step p { margin: var(--s4) 0 0; color: var(--secondary); font-size: 12px; line-height: 1.75; }
-.process-step code { font: 12px/1.6 var(--mono); color: var(--ink); }
+.main-site-cta { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.main-site-cta__inner { display: flex; flex-direction: column; align-items: center; gap: var(--s12); padding-block: var(--s64); text-align: center; }
+.main-site-cta h2 { margin: 0; font-size: 20px; font-weight: 600; line-height: 1.5; }
+.main-site-cta h2 .nowrap { white-space: nowrap; }
+.main-site-cta .button { margin-top: var(--s12); }
 
 .site-footer { width: min(1120px, calc(100% - 48px)); min-height: 88px; display: flex; align-items: center; justify-content: space-between; gap: var(--s16); margin-inline: auto; color: var(--secondary); font-size: 12px; }
-.brand--footer .brand__mark { width: 24px; height: 24px; font-size: 12px; }
+.brand--footer .brand__logo { height: 22px; }
 .site-footer > p { margin: 0; }
 .site-footer__year { font: 400 10px/1.4 var(--mono); letter-spacing: .06em; }
+.site-footer__icp { color: inherit; }
+.site-footer__icp:hover { color: var(--ink); }
 
 @media (max-width: 820px) {
   .hero { min-height: 0; grid-template-columns: minmax(0, 1fr) minmax(220px, .8fr); gap: var(--s32); padding-block: var(--s48); }
   .hero-study__image-wrap { height: 300px; }
   .project-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .process__inner { grid-template-columns: .65fr 1.35fr; gap: var(--s32); }
+  .main-site-cta__inner { padding-block: var(--s48); }
 }
 @media (max-width: 600px) {
   .section-wrap, .hero, .site-footer { width: min(100% - 32px, 440px); }
@@ -234,8 +221,7 @@ img { display: block; max-width: 100%; }
   .project-card__media { aspect-ratio: 1.55; }
   .project-card__description { min-height: 0; }
   .empty-state { padding-block: var(--s32) var(--s48); }
-  .process__inner { grid-template-columns: 1fr; gap: var(--s24); padding-block: var(--s48); }
-  .process__heading h2 br { display: none; }
+  .main-site-cta__inner { padding-block: var(--s48); }
   .site-footer { min-height: 100px; flex-wrap: wrap; justify-content: space-between; padding-block: var(--s16); }
   .site-footer > p { display: none; }
   .project-card__meta { font-size: 13px; }
@@ -250,8 +236,6 @@ img { display: block; max-width: 100%; }
 /* Chinese-first type rhythm: supporting labels remain readable and body text
    gets enough line-height without letting Latin font metrics lead the stack. */
 body { font-size: 16px; line-height: 1.8; }
-.brand__name { font-size: 14px; }
-.brand__name small { font-size: 12px; }
 .site-nav { font-size: 14px; }
 .site-nav__note { font-size: 13px; }
 .eyebrow, .micro-label, .empty-state__eyebrow { font-size: 12px; letter-spacing: .04em; }
@@ -271,11 +255,7 @@ body { font-size: 16px; line-height: 1.8; }
 .project-card__footer { font-size: 13px; }
 .empty-state h3 { font-size: 19px; line-height: 1.6; }
 .empty-state p:not(.empty-state__eyebrow) { font-size: 15px; line-height: 1.85; }
-.process__heading h2 { font-size: 24px; line-height: 1.6; }
-.process__heading h2 { white-space: nowrap; }
-.process-step h3 { font-size: 16px; line-height: 1.6; }
-.process-step p { font-size: 14px; line-height: 1.9; }
-.process-step code { font-size: 13px; }
+.main-site-cta h2 { font-size: 24px; line-height: 1.6; }
 .site-footer { font-size: 14px; }
 @media (max-width: 600px) {
   .hero h1 { font-size: clamp(24px, 8vw, 36px); line-height: 1.45; }

@@ -8,21 +8,34 @@
   const emptyTitle = document.querySelector('#empty-title');
   const emptyDescription = document.querySelector('#empty-description');
   const loadError = document.querySelector('#load-error');
+  const emptyAction = document.querySelector('#empty-action');
   const template = document.querySelector('#project-card-template');
 
   let projects = [];
   let category = 'all';
 
+  // 站点固定分类体系：量房/水电阶段的现场记录 + 设计与完工阶段的全景效果。
+  // 固定 chips 始终展示；数据里出现体系外的分类时自动追加到末尾。
+  const FIXED_CATEGORIES = [
+    { value: '量房记录', note: '量房阶段拍摄的现场全景记录' },
+    { value: '水电记录', note: '施工过程中水电阶段拍摄的现场全景记录' },
+    { value: '全景效果', note: '设计阶段或完工阶段的全景呈现' },
+  ];
+
   const text = (value) => typeof value === 'string' ? value.trim() : '';
   const pad = (value) => String(value).padStart(2, '0');
 
-  function makeFilter(label, value, active = false) {
+  function makeFilter(label, value, active = false, note = '') {
     const button = document.createElement('button');
     button.type = 'button';
     button.className = `filter${active ? ' is-active' : ''}`;
     button.dataset.category = value;
     button.setAttribute('aria-pressed', String(active));
     button.textContent = label;
+    if (note) {
+      button.title = note;
+      button.setAttribute('aria-label', `${label}——${note}`);
+    }
     button.addEventListener('click', () => {
       category = value;
       filters.querySelectorAll('.filter').forEach((item) => {
@@ -37,9 +50,10 @@
 
   function buildFilters() {
     filters.replaceChildren(makeFilter('全部', 'all', true));
-    const categories = [...new Set(projects.map((project) => text(project.category)).filter(Boolean))]
-      .sort((a, b) => a.localeCompare(b, 'zh-CN'));
-    categories.forEach((name) => filters.append(makeFilter(name, name)));
+    FIXED_CATEGORIES.forEach(({ value, note }) => filters.append(makeFilter(value, value, false, note)));
+    const extras = [...new Set(projects.map((project) => text(project.category)).filter(Boolean))]
+      .filter((name) => !FIXED_CATEGORIES.some((item) => item.value === name));
+    extras.forEach((name) => filters.append(makeFilter(name, name)));
   }
 
   function safeLocalPath(value) {
@@ -101,10 +115,17 @@
 
     if (!projects.length) {
       emptyTitle.textContent = '第一段空间漫游，正等待被收入。';
-      emptyDescription.textContent = '完成导览导出后，将网页文件放入项目库并登记项目信息，即可在这里浏览。';
+      emptyDescription.textContent = '项目正在整理中，可先前往主站浏览更多案例。';
+      emptyAction.hidden = false;
     } else if (!visible.length) {
-      emptyTitle.textContent = '没有找到匹配的项目。';
-      emptyDescription.textContent = '试试其他关键词或项目类型。';
+      if (query) {
+        emptyTitle.textContent = '没有找到匹配的项目。';
+        emptyDescription.textContent = '试试其他关键词或项目类型。';
+      } else {
+        emptyTitle.textContent = '该分类下暂时还没有项目。';
+        emptyDescription.textContent = '新记录收录后，会在第一时间出现在这里。';
+      }
+      emptyAction.hidden = true;
     }
   }
 
