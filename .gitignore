@@ -9,6 +9,10 @@ editor/MT-Panoramic/public/img/
 # Generated tour exports; curated published copies live in catalog/projects/
 editor/panotour/dist/
 
+# Deploy state cache for scripts/deploy-catalog.mjs (safe to delete; forces one full re-upload)
+scripts/.deploy-manifest.json
+scripts/.deploy-manifest.json.tmp
+
 # Python caches
 __pycache__/
 *.pyc

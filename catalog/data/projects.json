@@ -11,7 +11,11 @@
       "description": "量房初始阶段的 20 个空间 360° 现场记录，通过场景菜单切换浏览。",
       "cover": "assets/covers/renheng-jiachengli.jpg",
       "href": "projects/renheng-jiachengli/index.html",
-      "tags": ["量房", "住宅", "精装"]
+      "tags": [
+        "量房",
+        "住宅",
+        "精装"
+      ]
     }
   ]
 }

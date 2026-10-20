@@ -52,6 +52,8 @@ node scripts/deploy-catalog.mjs --bucket gsyz-web --dry-run
 node scripts/deploy-catalog.mjs --bucket gsyz-web --ossutil "C:\ossutil.exe"
 ```
 
+部署默认**增量**：脚本在 `scripts/.deploy-manifest.json` 记录每个对象上次成功上传的内容 MD5 与缓存策略，重跑时只上传内容变化（或远端从未传过）的对象——上线新项目时老项目成千上万个瓦片全部跳过，零改动重跑仅秒级。该清单是本地缓存、被 gitignore，删掉即退回全量重建；若怀疑线上与仓库不一致（如有人绕过脚本直接改过 OSS），用 `--full` 强制全量重传一次。清单只在全部对象上传成功时才落盘，中途失败不会留下"半新不旧"的错误基线。
+
 上传结构保持：
 
 ```text
